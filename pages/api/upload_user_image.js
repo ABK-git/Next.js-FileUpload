@@ -4,7 +4,7 @@ import nextConnect from "next-connect";
 const upload = multer({
   storage: multer.diskStorage({
     destination: "./public/images/user",
-    filename: (req, file, cb) => cb(null, file.originalname),
+    filename: (req, file, cb) => cb(null, Date.now()+file.originalname),
   }),
 });
 
@@ -22,7 +22,7 @@ const apiRoute = nextConnect({
 apiRoute.use(upload.single("file"));
 
 apiRoute.post((req, res) => {
-  res.status(200).json({ error: `Method '${req.method}' Not Allowed` });
+  res.status(200).json({ file_name: `${req.file.path}` });
 });
 
 export default apiRoute;

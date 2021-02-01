@@ -2,7 +2,7 @@ import axios from "axios";
 import React, { useState } from "react";
 
 const SignUp = () => {
-  const [file, setFile] = useState(null);
+  let [file, setFile] = useState(null);
 
   //画像のUP構成
   const config = {
@@ -19,11 +19,19 @@ const SignUp = () => {
     const formData = new FormData();
     formData.append("file", file);
 
-    const response = await axios.post("/api/upload_user_image", formData, config);
-    console.log(response);
+    let data = null;
+
+    await axios.post("/api/upload_user_image", formData, config)
+    .then(response => data = response.data.file_name);
+    
+    console.log(data);
   };
 
-  const handleChange = (event) => {
+  const handleChange = (event) => 
+  {
+    let file = event.target.files[0];
+    console.log(file);
+    
     setFile(event.target.files[0]);
   };
 
